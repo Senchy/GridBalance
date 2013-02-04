@@ -52,6 +52,14 @@ function Update()
 	else{
 		MoveDown();
     }
+    if(Input.GetKey("a")){
+    	speed = 60;
+	}else if(Input.GetKey("s")){
+    	speed = 15;
+	}else{
+		speed = 30;
+	}
+	
     controller.Move(moveDirection * Time.deltaTime);
 }
 

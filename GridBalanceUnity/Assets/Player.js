@@ -3,20 +3,16 @@ import System.IO;
 private var turbineModifier;
 private var pumpModifier;
 private var reservoirModifier;
+private var moveDirection : Vector3 = Vector3.zero;
 
-private var BASE_TURBINE_VALUE = 5;
-private var BASE_PUMP_VALUE = 5;
-private var BASE_RESERVOIR_VALUE = 100;
-private var level;
+var BASE_TURBINE_VALUE = 20;
+var BASE_PUMP_VALUE = 20;
+var BASE_RESERVOIR_VALUE = 100;
+var speed = 30;
+var maxSpeed = 50;
 
 private var waterLeft;
 private var money;
-
-private var BASE_SPEED : float = 25.0;
-private var jumpSpeed : float = 15.0;
-private var gravity : float = 15.0;
-
-private var moveDirection : Vector3 = Vector3.zero;
 
 function Start () 
 {
@@ -31,32 +27,31 @@ Debug.Log("done");
 
 function MoveUp()
 {
-	var move = BASE_TURBINE_VALUE * turbineModifier * Time.deltaTime;
+	//var move = BASE_TURBINE_VALUE * turbineModifier * Time.deltaTime;
+	moveDirection.z += BASE_TURBINE_VALUE * Time.deltaTime; // insert turbineModifier when i'ts implemented
+	if(moveDirection.z >= maxSpeed)
+	{
+		moveDirection.z = maxSpeed;
+	}
 }
 
 function MoveDown()
 {
-	var move = BASE_PUMP_VALUE * pumpModifier * Time.deltaTime;
+	//var move = BASE_PUMP_VALUE * pumpModifier * Time.deltaTime;
+	moveDirection.z -= BASE_PUMP_VALUE * Time.deltaTime;
 }
 
-function Update () 
+function Update() 
 {
-    var controller : CharacterController = GetComponent(CharacterController);
-        
-        if (Input.GetButton ("Jump")) {
-            moveDirection.z = jumpSpeed;
-        }
-        
-    // Apply forward motion
-    moveDirection.x = BASE_SPEED;
+	var controller : CharacterController = GetComponent(CharacterController);
+	moveDirection.x = speed;
 
-    // Apply gravity
-    moveDirection.z -= gravity * Time.deltaTime;
-    
-    // Move the controller
+	if(Input.GetKey("space")){
+		MoveUp();
+    }
+	else{
+		MoveDown();
+    }
     controller.Move(moveDirection * Time.deltaTime);
 }
-function OnCollisionEnter(collision : Collision) {
-	var name = Application.loadedLevelName;
-	SwitchScene.SwitchToLevel(name);
-}
+

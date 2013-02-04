@@ -7,6 +7,7 @@ private var reservoirModifier;
 private var BASE_TURBINE_VALUE = 5;
 private var BASE_PUMP_VALUE = 5;
 private var BASE_RESERVOIR_VALUE = 100;
+private var level;
 
 private var waterLeft;
 private var money;
@@ -55,4 +56,7 @@ function Update ()
     // Move the controller
     controller.Move(moveDirection * Time.deltaTime);
 }
-
+function OnCollisionEnter(collision : Collision) {
+	var name = Application.loadedLevelName;
+	SwitchScene.SwitchToLevel(name);
+}

@@ -12,10 +12,8 @@ static class SwitchScene
 	{
 		Application.LoadLevel("MasterUpgradeMenu");
 	}
-	function SwitchToLevel(number)
+	function SwitchToLevel(name)
 	{
-		var name : String = "Level";
-		name = name + number;
 		Application.LoadLevel(name); 
 	}
 };

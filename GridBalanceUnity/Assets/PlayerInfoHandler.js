@@ -20,10 +20,10 @@ class PlayerInfoHandler
 		var lastLevel = null;
 	    var lines = fileContents.Split("\n"[0]);
     	
-    	money = lines[parseInt(0)].Split(" "[0])[1];
-    	turbineLevel = lines[parseInt(1)].Split(" "[0])[1];
-    	pumpLevel = lines[parseInt(2)].Split(" "[0])[1];
-    	reservoirLevel = lines[parseInt(3)].Split(" "[0])[1];
+    	money = parseInt(lines[parseInt(0)].Split(" "[0])[1]);
+    	turbineLevel = parseInt(lines[parseInt(1)].Split(" "[0])[1]);
+    	pumpLevel = parseInt(lines[parseInt(2)].Split(" "[0])[1]);
+    	reservoirLevel = parseInt(lines[parseInt(3)].Split(" "[0])[1]);
 	}
 	
 	/*
@@ -40,4 +40,6 @@ class PlayerInfoHandler
 	    	+ "\nReservoirLevel " + "3");
 	    sw.Close();
 	}
+	
+	static function GetMoney() { return money; }
 }

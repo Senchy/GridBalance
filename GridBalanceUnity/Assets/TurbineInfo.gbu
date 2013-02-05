@@ -1,0 +1,13 @@
+EffectName-Turbine
+FunctionalDescription-The turbine increases the speed you can go at
+EducationalDescription-The turbine is used to produced electricity blah blah education blah
+EffectValue1-1.1
+Cost1-10000
+EffectValue2-1.2
+Cost2-15000
+EffectValue3-1.3
+Cost3-20000
+EffectValue4-1.4
+Cost4-25000
+EffectValue5-1.4
+Cost5-30000

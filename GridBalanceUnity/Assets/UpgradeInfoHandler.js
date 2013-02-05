@@ -7,6 +7,8 @@ class UpgradeInfoHandler
 	var cost;
 	
 	static var TURBINE_INFO_LOCATION = (Application.dataPath + "/TurbineInfo.gbu");
+	static var RESERVOIR_INFO_LOCATION = (Application.dataPath + "/TurbineInfo.gbu");
+	static var PUMP_INFO_LOCATION = (Application.dataPath + "/TurbineInfo.gbu");
 	
 	function UpgradeInfoHandler(fileLocation : String, level : int)
 	{

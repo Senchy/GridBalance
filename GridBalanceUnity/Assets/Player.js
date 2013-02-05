@@ -7,6 +7,9 @@ private var moveDirection : Vector3 = Vector3.zero;
 
 var WATER_NORMAL_TEXTURE : Texture;
 var WATER_WARNING_TEXTURE : Texture;
+var MONEY_TEXTURE : Texture;
+var TIME_TEXTURE : Texture;
+
 var RESERVOIR_TEXTURE : Texture;
 
 private var currentWaterTexture : Texture;
@@ -35,6 +38,8 @@ private var timeSinceLastFlash = 0.0;
 
 private var finished = false;
 private var running = false;
+private var readyToExit = false;
+private var timeUntilExit = 5.0;
 
 function Start () 
 {
@@ -66,6 +71,19 @@ function Update()
     		waterLeft -= drain;
     		
     		PlayerInfoHandler.money += drain * MONEY_PER_RESERVOIR_POINT_LEFT;
+    	}
+    	else if(!readyToExit)
+    	{
+    		PlayerInfoHandler.SavePlayerInfo();
+    		readyToFinish = true;
+    	}
+    	else if(timeUntilExit > 0)
+    	{
+    		timeUntilExit -= Time.deltaTime;
+    	}    	
+    	else
+    	{
+	        SwitchScene.SwitchToLevel("MasterLevelMenu");
     	}
     }
 }
@@ -146,11 +164,19 @@ function OnGUI()
 	
 	GUI.DrawTexture(Rect(0, 0, 250, 125), RESERVOIR_TEXTURE, ScaleMode.StretchToFill, true, 1.0f);
 	GUI.DrawTexture(Rect(33, 106 - ((waterLeft / maxWater) * 100 * 0.36), 81, (waterLeft / maxWater) * 100 * 0.36), currentWaterTexture, ScaleMode.StretchToFill, true, 1.0f);
-	GUI.Label(Rect(Screen.width - 145, 100, 250, 50), "Water Left: " + parseInt(waterLeft));
+	//GUI.Label(Rect(Screen.width - 145, 100, 250, 50), "Water Left: " + parseInt(waterLeft));
 	
+	
+	GUI.DrawTexture(Rect(Screen.width / 2 - 75, 0, 92, 35), TIME_TEXTURE, ScaleMode.StretchToFill, true, 1.0f);
 	GUI.color = new Color(64.0 / 255.0, 64.0 / 255.0, 64.0 / 255.0);
-	GUI.Label(Rect(50, 10, 250, 50), "Time: " + timeAlive.ToString("F2"));
-	GUI.Label(Rect(Screen.width - 250, 10, 250, 50), "Money: $" + PlayerInfoHandler.money);
+	GUI.Label(Rect(Screen.width / 2 - 38, 6, 250, 50), timeAlive.ToString("F2"));
+	
+	GUI.color = Color.white;
+	
+	GUI.DrawTexture(Rect(375, 0, 151, 35), MONEY_TEXTURE, ScaleMode.StretchToFill, true, 1.0f);
+	GUI.color = new Color(64.0 / 255.0, 64.0 / 255.0, 64.0 / 255.0);
+	GUI.Label(Rect(420, 7, 250, 50), "€" + PlayerInfoHandler.money);
+	
 	if(finished)
 	{
 		GUI.Label(Rect(Screen.width / 2, Screen.height / 2, 200, 50), "Congratulations, you won!");

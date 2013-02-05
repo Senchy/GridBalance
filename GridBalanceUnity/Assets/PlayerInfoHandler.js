@@ -4,6 +4,7 @@ class PlayerInfoHandler
 	static var turbineLevel;
 	static var pumpLevel;
 	static var reservoirLevel;
+	static var unlockedLevel;
 	
 	private static var infoFile = "PlayerInfo.gbu";
 	
@@ -24,6 +25,7 @@ class PlayerInfoHandler
     	turbineLevel = parseInt(lines[parseInt(1)].Split(" "[0])[1]);
     	pumpLevel = parseInt(lines[parseInt(2)].Split(" "[0])[1]);
     	reservoirLevel = parseInt(lines[parseInt(3)].Split(" "[0])[1]);
+    	unlockedLevel = parseInt(lines[parseInt(4)].Split(" "[0])[1]);
 	}
 	
 	/*
@@ -34,12 +36,13 @@ class PlayerInfoHandler
 		var NUM_PARAMS = 4;
 	    var sw = new StreamWriter(Application.dataPath + "/" + infoFile);
 	    
-	    sw.Write("Money " + "100000"
-	    	+ "\nTurbineLevel " + "1"
-	    	+ "\nPumpLevel " + "2"
-	    	+ "\nReservoirLevel " + "3");
+	    sw.Write("Money " + money
+	    	+ "\nTurbineLevel " + turbineLevel
+	    	+ "\nPumpLevel " + pumpLevel
+	    	+ "\nReservoirLevel " + reservoirLevel
+	    	+ "\nUnlockLevel " + unlockedLevel);
 	    sw.Close();
 	}
 	
-	static function GetMoney() { return money; }
+	//static function GetMoney() { return money; }
 }

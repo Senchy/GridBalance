@@ -5,6 +5,7 @@ private var pumpModifier;
 private var reservoirModifier;
 private var moveDirection : Vector3 = Vector3.zero;
 
+var WATER_TEXTURE : Texture;
 var BASE_TURBINE_VALUE = 20;
 var BASE_PUMP_VALUE = 20;
 var BASE_RESERVOIR_VALUE = 100.0;
@@ -12,9 +13,10 @@ var speed = 30;
 var maxSpeed = 60;
 
 private var waterLeft;
+private var maxWater;
 private var money;
 private var WATER_LOSS_PER_SECOND = 5.0;
-private var WATER_REGAIN_RATIO = 0.90;
+private var WATER_REGAIN_RATIO = 0.10;
 private var timeAlive = 0.0;
 private var expectedTime = 60.0;
 
@@ -25,11 +27,14 @@ private var MONEY_PER_SECOND_BOOSTING = 250.0;
 private var RESERVOIR_WIN_DRAIN_PER_SECOND = 10.0;
 
 private var finished = false;
+private var running = false;
 
 function Start () 
 {
 	PlayerInfoHandler.LoadPlayerInfo();
-	waterLeft = BASE_RESERVOIR_VALUE;//* reservoirModifier;
+	PlayerInfoHandler.SavePlayerInfo();
+	maxWater = waterLeft = BASE_RESERVOIR_VALUE;//* reservoirModifier;
+	
 }
 
 function Update() 
@@ -86,7 +91,7 @@ function CheckForWinLoseCollisions()
 	rayRight.direction = transform.right;
     var hit : RaycastHit;
     //if (Physics.Raycast(transform.position, -transform.up, 8))
-    if (Physics.Raycast(rayUp, hit, 8) || Physics.Raycast(rayRight, hit, 5)) 
+    if (Physics.Raycast(rayUp, hit, 8) || Physics.Raycast(rayRight, hit, 2)) 
     {
     	if(hit.collider.gameObject.name == "FinishLine")
     	{
@@ -105,22 +110,24 @@ function RespondToDirection()
     {
     	PlayerInfoHandler.money += parseInt(MONEY_PER_SECOND_GENERATING * Time.deltaTime);
 		waterLeft -= WATER_LOSS_PER_SECOND * Time.deltaTime;
+		if(waterLeft < 1) SwitchScene.SwitchToLevel(Application.loadedLevelName);
 	}
     else 
     {	
 	    waterLeft += WATER_LOSS_PER_SECOND * Time.deltaTime * WATER_REGAIN_RATIO;
-		if(waterLeft > BASE_RESERVOIR_VALUE) waterLeft = BASE_RESERVOIR_VALUE;
+		if(waterLeft > maxWater) waterLeft = maxWater;
     }
 }
 
 function OnGUI()
 {
-	GUI.color = new Color(64.0 / 255.0, 64.0 / 255.0, 64.0 / 255.0);
 	
-	GUI.Label(Rect(150, 10, 250, 50), "Water Left: " + parseInt(waterLeft));
-	//var twoPlacedFloat = parseFloat(timeAlive).toFixed(2);
+	GUI.DrawTexture(Rect(Screen.width - 150, 120 - ((waterLeft / maxWater) * 100), 100, (waterLeft / maxWater) * 100), WATER_TEXTURE, ScaleMode.StretchToFill, true, 1.0f);
+	GUI.Label(Rect(Screen.width - 145, 100, 250, 50), "Water Left: " + parseInt(waterLeft));
+	
+	GUI.color = new Color(64.0 / 255.0, 64.0 / 255.0, 64.0 / 255.0);
 	GUI.Label(Rect(50, 10, 250, 50), "Time: " + timeAlive.ToString("F2"));
-	GUI.Label(Rect(Screen.width - 150, 10, 250, 50), "Money: $" + PlayerInfoHandler.money);
+	GUI.Label(Rect(Screen.width - 250, 10, 250, 50), "Money: $" + PlayerInfoHandler.money);
 	if(finished)
 	{
 		GUI.Label(Rect(Screen.width / 2, Screen.height / 2, 200, 50), "Congratulations, you won!");
@@ -134,12 +141,10 @@ function MoveUp()
 	{
 		moveDirection.z = maxSpeed;
 	}
-	
 }
 
 function MoveDown()
 {
-
 	moveDirection.z -= BASE_PUMP_VALUE * Time.deltaTime;
 	
 	if(moveDirection.z <= -maxSpeed)

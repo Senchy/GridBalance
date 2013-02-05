@@ -1,4 +1,3 @@
-#pragma strict
 	private var ScreenWidth = Screen.width;
 	private var ScreenHeight = Screen.height;
 	private var Width = ScreenWidth / 4;
@@ -87,7 +86,7 @@ function OnGUI () {
 			}
 			else
 			{
-				PlayerInfoHandler.money - Cost;
+				PlayerInfoHandler.money -= Cost;
 				message = "Purchased";
 			}
 		}

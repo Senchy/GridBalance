@@ -15,7 +15,6 @@ var BASE_RESERVOIR_VALUE = 100.0;
 var speed = 30;
 var maxSpeed = 60;
 
-//private var money;
 private var waterLeft;
 private var maxWater;
 private var WATER_LOSS_PER_SECOND = 8.0;
@@ -96,7 +95,7 @@ function CheckForWinLoseCollisions()
 	rayUp.direction = -transform.up;
 	rayRight.direction = transform.right;
     var hit : RaycastHit;
-    //if (Physics.Raycast(transform.position, -transform.up, 8))
+    
     if (Physics.Raycast(rayUp, hit, 8) || Physics.Raycast(rayRight, hit, 2)) 
     {
     	if(hit.collider.gameObject.name == "FinishLine")

@@ -5,18 +5,21 @@ private var pumpModifier;
 private var reservoirModifier;
 private var moveDirection : Vector3 = Vector3.zero;
 
-var WATER_TEXTURE : Texture;
+var WATER_NORMAL_TEXTURE : Texture;
+var WATER_WARNING_TEXTURE : Texture;
+private var currentWaterTexture : Texture;
+
 var BASE_TURBINE_VALUE = 20;
 var BASE_PUMP_VALUE = 20;
 var BASE_RESERVOIR_VALUE = 100.0;
 var speed = 30;
 var maxSpeed = 60;
 
+//private var money;
 private var waterLeft;
 private var maxWater;
-private var money;
-private var WATER_LOSS_PER_SECOND = 5.0;
-private var WATER_REGAIN_RATIO = 0.10;
+private var WATER_LOSS_PER_SECOND = 8.0;
+private var WATER_REGAIN_RATIO = 0.90;
 private var timeAlive = 0.0;
 private var expectedTime = 60.0;
 
@@ -24,7 +27,10 @@ private var MONEY_PER_SECOND_GENERATING = 100.0;
 private var MONEY_PER_RESERVOIR_POINT_LEFT = 100.0;
 private var MONEY_PER_SECOND_BOOSTING = 250.0;
 
+private var RESERVOIR_WARNING_LIMIT = 20;//How low must reservoir be before it starts flashing
 private var RESERVOIR_WIN_DRAIN_PER_SECOND = 10.0;
+private var WATER_WARNING_FLASH_PERIOD = 0.2;
+private var timeSinceLastFlash = 0.0;
 
 private var finished = false;
 private var running = false;
@@ -34,7 +40,7 @@ function Start ()
 	PlayerInfoHandler.LoadPlayerInfo();
 	PlayerInfoHandler.SavePlayerInfo();
 	maxWater = waterLeft = BASE_RESERVOIR_VALUE;//* reservoirModifier;
-	
+	currentWaterTexture = WATER_NORMAL_TEXTURE;
 }
 
 function Update() 
@@ -74,7 +80,7 @@ function CheckForInput()
 	}else{
 		speed = 30;
 	}
-		if(Input.GetKey("space")){
+		if(waterLeft > 0 && Input.GetKey("space")){
 		MoveUp();
     }
 	else{
@@ -110,7 +116,7 @@ function RespondToDirection()
     {
     	PlayerInfoHandler.money += parseInt(MONEY_PER_SECOND_GENERATING * Time.deltaTime);
 		waterLeft -= WATER_LOSS_PER_SECOND * Time.deltaTime;
-		if(waterLeft < 1) SwitchScene.SwitchToLevel(Application.loadedLevelName);
+		if(waterLeft < 0) waterLeft = 0;
 	}
     else 
     {	
@@ -121,8 +127,22 @@ function RespondToDirection()
 
 function OnGUI()
 {
-	
-	GUI.DrawTexture(Rect(Screen.width - 150, 120 - ((waterLeft / maxWater) * 100), 100, (waterLeft / maxWater) * 100), WATER_TEXTURE, ScaleMode.StretchToFill, true, 1.0f);
+	if(waterLeft < RESERVOIR_WARNING_LIMIT)
+	{
+		timeSinceLastFlash += Time.deltaTime;
+		if(timeSinceLastFlash > WATER_WARNING_FLASH_PERIOD)
+		{
+			if(currentWaterTexture === WATER_NORMAL_TEXTURE) currentWaterTexture = WATER_WARNING_TEXTURE;
+			else currentWaterTexture = WATER_NORMAL_TEXTURE;
+			timeSinceLastFlash = 0;
+		}
+	}
+	else
+	{
+		timeSinceLastFlash = 0;
+		currentWaterTexture = WATER_NORMAL_TEXTURE;
+	}
+	GUI.DrawTexture(Rect(Screen.width - 150, 120 - ((waterLeft / maxWater) * 100), 100, (waterLeft / maxWater) * 100), currentWaterTexture, ScaleMode.StretchToFill, true, 1.0f);
 	GUI.Label(Rect(Screen.width - 145, 100, 250, 50), "Water Left: " + parseInt(waterLeft));
 	
 	GUI.color = new Color(64.0 / 255.0, 64.0 / 255.0, 64.0 / 255.0);

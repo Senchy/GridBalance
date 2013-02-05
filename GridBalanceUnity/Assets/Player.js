@@ -7,6 +7,8 @@ private var moveDirection : Vector3 = Vector3.zero;
 
 var WATER_NORMAL_TEXTURE : Texture;
 var WATER_WARNING_TEXTURE : Texture;
+var RESERVOIR_TEXTURE : Texture;
+
 private var currentWaterTexture : Texture;
 
 var BASE_TURBINE_VALUE = 20;
@@ -141,7 +143,9 @@ function OnGUI()
 		timeSinceLastFlash = 0;
 		currentWaterTexture = WATER_NORMAL_TEXTURE;
 	}
-	GUI.DrawTexture(Rect(Screen.width - 150, 120 - ((waterLeft / maxWater) * 100), 100, (waterLeft / maxWater) * 100), currentWaterTexture, ScaleMode.StretchToFill, true, 1.0f);
+	
+	GUI.DrawTexture(Rect(0, 0, 250, 125), RESERVOIR_TEXTURE, ScaleMode.StretchToFill, true, 1.0f);
+	GUI.DrawTexture(Rect(33, 106 - ((waterLeft / maxWater) * 100 * 0.36), 81, (waterLeft / maxWater) * 100 * 0.36), currentWaterTexture, ScaleMode.StretchToFill, true, 1.0f);
 	GUI.Label(Rect(Screen.width - 145, 100, 250, 50), "Water Left: " + parseInt(waterLeft));
 	
 	GUI.color = new Color(64.0 / 255.0, 64.0 / 255.0, 64.0 / 255.0);

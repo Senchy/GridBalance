@@ -129,7 +129,7 @@ function OnGUI () {
 		GUI.Label(new Rect((ScreenWidth - Width) - 80,3 *(ScreenHeight/ 5),Width + 50, 30), nameOfChange + " :");
 		GUI.Label(new Rect(ScreenWidth - ((2*Width) / 3),3 *(ScreenHeight/5),Width, 30), "" + changeValue);
 		GUI.Label(new Rect((ScreenWidth - Width) - 80,3 * ButtonHeight + 7 * (ButtonHeight / 5) - 30,Width + 50, 30), "Price :  " + cost);
-		GUI.Label(new Rect(20,30,200, 30), "$ :  ");// + PlayerInfoHandler.money);
+		GUI.Label(new Rect(20,30,200, 30), "$ :  " +  PlayerInfoHandler.money);
 		///BUTTONS
 		if(GUI.Button (new Rect ((ScreenWidth - Width) - 70,
 		3 * ButtonHeight + 7 * (ButtonHeight / 5) ,

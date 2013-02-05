@@ -18,16 +18,16 @@ function OnMouseDown()
 		case"UpgradeCube":
 			SwitchScene.SwitchToUpgradeMenu();
 		break;
-		case"Level1Cube":
+		case"Level1":
 			SwitchScene.SwitchToLevel("SPRING_LVL1");
 		break;
-		case"Level2Cube":
+		case"Level2":
 			SwitchScene.SwitchToLevel("SPRING_LVL2");
 		break;
-		case"Level3Cube":
+		case"Level3":
 			SwitchScene.SwitchToLevel("SPRING_LVL3");
 		break;
-		case"Level4Cube":
+		case"Level4":
 			SwitchScene.SwitchToLevel("SPRING_LVL4");
 		break;
 	}

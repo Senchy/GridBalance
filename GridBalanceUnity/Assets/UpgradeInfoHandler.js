@@ -17,7 +17,6 @@ class UpgradeInfoHandler
 	
 	    var lines = fileContents.Split("\n"[0]);
     	
-    	Debug.Log("NAME: " + lines[parseInt(0)] + "\n");
     	effectName = lines[parseInt(0)].Split("-"[0])[1];
     	functionalDescription = lines[parseInt(1)].Split("-"[0])[1];
     	educationalDescription = lines[parseInt(2)].Split("-"[0])[1];
@@ -25,11 +24,11 @@ class UpgradeInfoHandler
     	effectValue = parseFloat(lines[parseInt(3 + (2 * (level - 1)))].Split("-"[0])[1]);
     	cost = parseInt(lines[parseInt(4 + (2 * (level - 1)))].Split("-"[0])[1]);
     	
-    	Debug.Log("NAME: " + effectName + "\n");
+    	/*Debug.Log("NAME: " + effectName + "\n");
     	Debug.Log("functionalDescription: " + functionalDescription + "\n");
     	Debug.Log("educationalDescription: " + educationalDescription + "\n");
     	Debug.Log("effectValue: " + effectValue + "\n");
-    	Debug.Log("cost: " + cost + "\n");
+    	Debug.Log("cost: " + cost + "\n");*/
 	}
 
 }

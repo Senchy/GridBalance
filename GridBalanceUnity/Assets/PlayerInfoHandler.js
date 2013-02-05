@@ -6,7 +6,7 @@ class PlayerInfoHandler
 	static var reservoirLevel;
 	
 	private static var infoFile = "PlayerInfo.gbu";
-	//private static var infoFile2 = "PlayerInfo.gbu";
+	
 	/*
 	 * Loads player information from a text file
 	 */
